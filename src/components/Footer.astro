@@ -1,46 +1,56 @@
 ---
-import { site } from "../data/site";
-import Portrait from "./Portrait.astro";
+import { nav, site, sources } from "../data/site";
+import Mark from "./Mark.astro";
 ---
 
-<footer class="relative overflow-hidden bg-navy text-cream">
-  <div class="star-field pointer-events-none absolute inset-0 opacity-70"></div>
-  <div class="relative mx-auto grid max-w-6xl gap-10 px-4 py-14 md:grid-cols-4 md:px-6">
-    <div class="md:col-span-2">
-      <div class="flex items-center gap-3">
-        <Portrait variant="logo" class="h-12 w-12" />
-        <div>
-          <p class="font-mark text-[10px] text-gold">Re-elect</p>
-          <p class="font-display text-2xl">{site.honorific}</p>
-        </div>
-      </div>
-      <p class="mt-4 max-w-md text-cream/75">
-        {site.office} · {site.county}, {site.state}. Republican nominee on the November 3, 2026 ballot against {site.opponent.name} ({site.opponent.partyAbbr}).
+<footer class="border-t border-line bg-pine text-paper">
+  <div class="mx-auto grid max-w-6xl gap-10 px-4 py-14 md:grid-cols-[1.3fr_0.8fr_1.2fr] md:px-6">
+    <div>
+      <Mark light />
+      <p class="mt-4 max-w-sm text-sm leading-relaxed text-paper/75">
+        {site.tagline} Figures on this site come from Building Bastrop County and Tomorrow Begins Here. Where those
+        sources publish different totals, both are shown and neither is added to the other.
       </p>
     </div>
     <div>
-      <p class="font-mark text-[10px] text-gold">On this site</p>
+      <p class="font-mono text-[0.68rem] tracking-[0.16em] text-paper/50 uppercase">On this site</p>
       <ul class="mt-3 space-y-2 text-sm">
-        <li><a class="hover:text-gold-soft" href="/about">About Judge Allen</a></li>
-        <li><a class="hover:text-gold-soft" href="/the-race">The race</a></li>
-        <li><a class="hover:text-gold-soft" href="/vote">How to vote</a></li>
-        <li><a class="hover:text-gold-soft" href="/get-involved">Volunteer</a></li>
+        <li><a class="no-underline hover:text-white" href="/">Home</a></li>
+        {
+          nav.map((item) => (
+            <li>
+              <a class="no-underline hover:text-white" href={item.href}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+        <li><a class="no-underline hover:text-white" href="/sources">Sources</a></li>
       </ul>
     </div>
     <div>
-      <p class="font-mark text-[10px] text-gold">Court vs. campaign</p>
-      <p class="mt-3 text-sm text-cream/75">
-        Need the court, not the campaign?
-      </p>
-      <a
-        class="mt-2 inline-block text-sm text-gold-soft underline decoration-gold/40 underline-offset-4"
-        href={site.officialCourtUrl}
-      >
-        Official JP Precinct 1 page
-      </a>
+      <p class="font-mono text-[0.68rem] tracking-[0.16em] text-paper/50 uppercase">Reported by</p>
+      <ul class="mt-3 space-y-3 text-sm">
+        {
+          sources.slice(0, 2).map((source) => (
+            <li>
+              <a class="underline decoration-paper/30 underline-offset-2" href={source.href} rel="noopener noreferrer">
+                {source.name}
+              </a>
+            </li>
+          ))
+        }
+        <li>
+          <a class="underline decoration-paper/30 underline-offset-2" href="https://tomorrowbeginshere.com/" rel="noopener noreferrer">
+            Tomorrow Begins Here
+          </a>
+        </li>
+      </ul>
     </div>
   </div>
-  <div class="relative border-t border-gold/20 px-4 py-6 text-center text-xs leading-relaxed text-cream/60 md:px-6">
-    {site.disclaimer}
+  <div class="border-t border-white/10">
+    <p class="mx-auto max-w-6xl px-4 py-4 text-xs text-paper/50 md:px-6">
+      Bastrop Bold is a public brief for Bastrop County residents. It is not a county office and it does not speak for the companies building the campuses.
+    </p>
   </div>
 </footer>

@@ -1,39 +1,28 @@
 ---
-import { nav, site } from "../data/site";
-import Portrait from "./Portrait.astro";
-import MobileNav from "./MobileNav";
+import { nav } from "../data/site";
+import Mark from "./Mark.astro";
 
 const path = Astro.url.pathname.replace(/\/$/, "") || "/";
 ---
 
-<header
-  class="sticky top-0 z-40 border-b border-gold/25 bg-navy/92 text-cream backdrop-blur-md"
->
+<header class="sticky top-0 z-40 border-b border-line/90 bg-sand/92 backdrop-blur-md">
   <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 md:px-6">
-    <a href="/" class="flex items-center gap-3 no-underline">
-      <Portrait variant="logo" />
-      <span class="leading-tight">
-        <span class="font-mark block text-[10px] text-gold-soft">Bastrop County · Texas</span>
-        <span class="font-display block text-lg text-cream md:text-xl">{site.candidate}</span>
-        <span class="block text-xs tracking-wide text-gold-soft/90">{site.shortOffice}</span>
-      </span>
+    <a href="/" class="no-underline" aria-label="Bastrop Bold, home">
+      <Mark />
     </a>
 
-    <nav class="hidden items-center gap-1 lg:flex" aria-label="Primary">
+    <nav class="hidden items-center gap-1 md:flex" aria-label="Primary">
       {
         nav.map((item) => {
-          const hrefPath = item.href.replace(/\/$/, "") || "/";
-          const active = path === hrefPath;
+          const active = path === item.href;
           return (
             <a
               href={item.href}
-              class:list={[
-                "rounded-sm px-2.5 py-2 text-sm tracking-wide transition",
-                active
-                  ? "bg-gold/15 text-gold-soft"
-                  : "text-cream/80 hover:bg-white/5 hover:text-gold-soft",
-              ]}
               aria-current={active ? "page" : undefined}
+              class:list={[
+                "rounded-full px-3 py-1.5 text-sm font-medium no-underline",
+                active ? "bg-pine text-paper" : "text-ink hover:bg-stone",
+              ]}
             >
               {item.label}
             </a>
@@ -42,21 +31,27 @@ const path = Astro.url.pathname.replace(/\/$/, "") || "/";
       }
     </nav>
 
-    <div class="hidden items-center gap-2 lg:flex">
-      <a
-        href="/get-involved"
-        class="rounded-sm bg-red px-3 py-2 text-sm font-semibold text-cream shadow-sm hover:bg-red-deep"
+    <details class="relative md:hidden">
+      <summary
+        class="cursor-pointer list-none rounded-full border border-line bg-paper px-3 py-1.5 text-sm font-medium"
       >
-        Volunteer
-      </a>
-      <a
-        href="/get-involved#donate"
-        class="rounded-sm border border-gold px-3 py-2 text-sm font-semibold text-gold-soft hover:bg-gold/10"
+        Menu
+      </summary>
+      <nav
+        class="absolute right-0 mt-2 w-52 rounded-2xl border border-line bg-paper p-2 shadow-lg"
+        aria-label="Mobile"
       >
-        Donate
-      </a>
-    </div>
-
-    <MobileNav client:load pathname={path} items={[...nav]} />
+        {
+          nav.map((item) => (
+            <a
+              href={item.href}
+              class="block rounded-xl px-3 py-2 text-sm font-medium no-underline hover:bg-sand"
+            >
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+    </details>
   </div>
 </header>

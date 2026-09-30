@@ -1,135 +1,134 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Countdown from "../components/Countdown";
-import Portrait from "../components/Portrait.astro";
-import TexasOutline from "../components/TexasOutline.astro";
-import FaqList from "../components/FaqList";
-import { experience, faqs, priorities, site } from "../data/site";
-import { formatCalendarDate } from "../lib/dates";
-import { getCollection } from "astro:content";
-
-const news = (await getCollection("news")).sort(
-  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
-).slice(0, 3);
-
-const events = (await getCollection("events"))
-  .sort((a, b) => a.data.date.getTime() - b.data.date.getTime())
-  .filter((event) => event.data.featured)
-  .slice(0, 3);
+import SourcesNote from "../components/SourcesNote.astro";
+import { figures, ledger, projects, site } from "../data/site";
 ---
 
-<Layout>
-  <section class="hero-wash relative overflow-hidden text-cream">
-    <div class="star-field absolute inset-0"></div>
-    <TexasOutline class="pointer-events-none absolute -right-16 top-10 h-[34rem] w-[34rem] text-gold/10" />
-    <div class="relative mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 md:grid-cols-[1.15fr_0.85fr] md:px-6 md:py-24">
+<Layout title={site.name} description={site.description}>
+  <section class="relative overflow-hidden bg-pine text-paper">
+    <div class="hero-grid pointer-events-none absolute inset-0"></div>
+    <div class="relative mx-auto grid max-w-6xl items-center gap-12 px-4 py-16 md:grid-cols-[1.15fr_0.85fr] md:px-6 md:py-24">
       <div>
-        <p class="font-mark text-[11px] text-gold">
-          Re-elect · Republican · November 3, 2026
+        <p class="font-mono text-[0.72rem] tracking-[0.16em] text-[#e7c2a4] uppercase">
+          Bastrop County, Texas
         </p>
-        <h1 class="font-display mt-4 text-5xl leading-[1.05] text-cream md:text-7xl">
-          Judge<br />Cindy Allen
+        <h1 class="font-display mt-4 text-[3.1rem] leading-[0.98] text-paper md:text-7xl">
+          Billions on the tax roll.
+          <span class="mt-1 block italic text-[#f0d2ba]">Almost nothing asked back.</span>
         </h1>
-        <p class="mt-4 max-w-xl text-lg text-cream/80 md:text-xl">
-          Justice of the Peace, Precinct 1 · Bastrop County, Texas
-        </p>
-        <p class="mt-5 max-w-xl text-cream/75">
-          The sitting judge. The experienced choice. On the ballot against {site.opponent.name} ({site.opponent.partyAbbr}).
+        <p class="mt-6 max-w-xl text-lg leading-relaxed text-paper/78">
+          Data centers are the rare project that widens the tax base and barely uses the services that tax base pays
+          for. Schools get the revenue without the students. The county gets a commercial payer that brings its own
+          security, its own fire suppression, and, at Pacifico, its own power plant.
         </p>
         <div class="mt-8 flex flex-wrap gap-3">
-          <a href="/get-involved" class="rounded-sm bg-red px-5 py-3 font-semibold hover:bg-red-deep">Volunteer</a>
-          <a href="/vote" class="rounded-sm border border-gold px-5 py-3 font-semibold text-gold-soft hover:bg-gold/10">Vote Nov 3</a>
-          <a href="/the-race" class="rounded-sm px-5 py-3 font-semibold text-cream/80 underline decoration-gold/50 underline-offset-4">See the race</a>
-        </div>
-        <div class="mt-10 max-w-md">
-          <p class="font-mark mb-3 text-[10px] text-gold-soft">Until polls open</p>
-          <Countdown client:load isoDate={site.electionDay} />
+          <a href="/tax-base" class="rounded-full bg-copper px-5 py-3 text-sm font-semibold text-paper no-underline hover:bg-copper-deep">
+            See the tax math
+          </a>
+          <a href="/footprint" class="rounded-full border border-paper/30 px-5 py-3 text-sm font-semibold text-paper no-underline hover:bg-white/10">
+            What residents provide
+          </a>
         </div>
       </div>
-      <div class="flex justify-center md:justify-end">
-        <Portrait variant="hero" class="w-72 md:w-[22rem]" />
-      </div>
+
+      <aside class="ticket ticket-top rounded-sm px-6 pt-8 pb-6" aria-label="Commercial tax ledger">
+        <p class="font-mono text-[0.65rem] tracking-[0.18em] text-muted uppercase">Bastrop County · Commercial roll</p>
+        <h2 class="font-display mt-2 text-3xl text-ink">What the land pays</h2>
+        <dl class="mt-4">
+          {
+            ledger.map((row) => (
+              <div class="grid grid-cols-[1fr_auto] gap-x-4 border-b border-dashed border-line py-3">
+                <dt>
+                  <span class="block text-sm font-medium">{row.label}</span>
+                  <span class="mt-0.5 block text-xs text-muted">{row.detail}</span>
+                </dt>
+                <dd class="font-mono text-sm font-medium text-pine">{row.value}</dd>
+              </div>
+            ))
+          }
+        </dl>
+        <p class="mt-4 text-xs leading-relaxed text-muted">
+          Published by Building Bastrop County. The two money rows are different projects and different time windows.
+          They are not a combined annual bill.
+        </p>
+      </aside>
     </div>
   </section>
 
-  <section class="bg-red text-cream">
-    <div class="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-4 md:flex-row md:items-center md:justify-between md:px-6">
-      <p class="font-mark text-[10px]">General election ballot</p>
-      <p class="font-display text-xl md:text-2xl">
-        Cindy Allen (R) · {site.opponent.name} (D)
+  <section class="border-b border-line bg-paper">
+    <div class="mx-auto grid max-w-6xl md:grid-cols-3">
+      <article class="border-b border-line px-4 py-8 md:border-r md:border-b-0 md:px-6">
+        <p class="font-mono text-2xl text-pine">{figures.combinedInvestment}</p>
+        <p class="mt-2 text-sm leading-relaxed text-muted">
+          Combined investment published for the EdgeConneX and Pacifico campuses in Cedar Creek.
+        </p>
+      </article>
+      <article class="border-b border-line px-4 py-8 md:border-r md:border-b-0 md:px-6">
+        <p class="font-mono text-2xl text-pine">{figures.pacificoPower}</p>
+        <p class="mt-2 text-sm leading-relaxed text-muted">
+          On-site generation at Pacifico. That campus is described as drawing nothing from the shared grid.
+        </p>
+      </article>
+      <article class="px-4 py-8 md:px-6">
+        <p class="font-mono text-2xl text-pine">{figures.usFreshwater}</p>
+        <p class="mt-2 text-sm leading-relaxed text-muted">
+          Share of U.S. freshwater used by every American data center combined, in 2023.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-24">
+    <div class="max-w-2xl">
+      <p class="kicker">The bargain</p>
+      <h2 class="font-display mt-3 text-4xl leading-tight md:text-5xl">They pay in. They barely draw out.</h2>
+      <p class="mt-4 text-lg leading-relaxed text-muted">
+        A house pays tax and then sends children to school, cars onto the farm-to-market roads, and calls to fire and
+        EMS. A data center pays tax and then mostly takes care of itself.
       </p>
-      <p class="text-sm text-cream/80">Justice of the Peace, Precinct 1</p>
     </div>
-  </section>
-
-  <section class="mx-auto max-w-6xl px-4 py-16 md:px-6">
-    <p class="font-mark text-[11px] text-red">The record</p>
-    <h2 class="font-display mt-2 max-w-3xl text-4xl md:text-5xl">A justice court is only as steady as the judge who holds it.</h2>
-    <p class="mt-4 max-w-2xl text-lg text-muted">
-      Since 2019, Judge Allen has been Precinct 1’s justice of the peace — the local bench for fine-only cases, small civil claims, evictions, warrants, inquests, and marriages. Precinct 1 already knows her work.
+    <div class="mt-10 grid gap-4 md:grid-cols-2">
+      <article class="rounded-3xl bg-pine p-7 text-paper">
+        <h3 class="font-display text-3xl">What they contribute</h3>
+        <ul class="mt-5 space-y-3 text-sm leading-relaxed text-paper/85">
+          <li>Property tax far beyond what the same acres paid as raw land — {figures.priorAnnualTax} a year before.</li>
+          <li>School revenue without a matching wave of enrollment.</li>
+          <li>A commercial share of the county levy, so houses are not the only payer.</li>
+          <li>{figures.constructionJobs} construction jobs in each build phase, then permanent technical pay of {figures.payRange}.</li>
+        </ul>
+      </article>
+      <article class="rounded-3xl border border-line bg-paper p-7">
+        <h3 class="font-display text-3xl">What they ask of residents</h3>
+        <ul class="mt-5 space-y-3 text-sm leading-relaxed text-muted">
+          <li>Minimal new students, against {figures.subdivisionStudents} from a 1,000-home subdivision.</li>
+          <li>Minimal daily traffic once construction crews go home.</li>
+          <li>On-site security and fire suppression, instead of a new neighborhood of emergency calls.</li>
+          <li>Closed-loop water. Pacifico is published at {figures.pacificoLues} living-unit equivalents, not a town’s worth of taps.</li>
+        </ul>
+      </article>
+    </div>
+    <p class="mt-6 text-sm">
+      <a class="font-medium underline underline-offset-2" href="/footprint">The full footprint, resource by resource</a>
     </p>
-    <div class="mt-10 grid gap-5 md:grid-cols-2">
-      {
-        experience.map((item) => (
-          <article class="rounded-sm border border-navy/10 bg-white p-6">
-            <p class="font-mark text-[10px] text-gold">{item.meta}</p>
-            <h3 class="font-display mt-2 text-2xl">{item.title}</h3>
-            <p class="mt-3 text-muted">{item.body}</p>
-          </article>
-        ))
-      }
-    </div>
   </section>
 
-  <section class="bg-navy py-16 text-cream">
-    <div class="mx-auto max-w-6xl px-4 md:px-6">
-      <p class="font-mark text-[11px] text-gold">Docket of priorities</p>
-      <h2 class="font-display mt-2 text-4xl">What this court owes Precinct 1</h2>
-      <div class="mt-8 grid gap-4 md:grid-cols-3">
-        {
-          priorities.slice(0, 3).map((item) => (
-            <article class="border border-gold/25 p-5">
-              <p class="font-mark text-[10px] text-gold">Cause {item.docket}</p>
-              <h3 class="font-display mt-2 text-2xl">{item.title}</h3>
-              <p class="mt-3 text-cream/75">{item.body}</p>
-            </article>
-          ))
-        }
+  <section class="border-y border-line bg-paper">
+    <div class="mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-20">
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p class="kicker">Cedar Creek</p>
+          <h2 class="font-display mt-3 text-4xl md:text-5xl">Two campuses, one county roll</h2>
+        </div>
+        <a href="/corridor" class="text-sm font-semibold underline underline-offset-2">Both projects</a>
       </div>
-      <a href="/priorities" class="mt-8 inline-block text-gold-soft underline decoration-gold/40 underline-offset-4">Read the full docket</a>
-    </div>
-  </section>
-
-  <section class="mx-auto grid max-w-6xl gap-10 px-4 py-16 md:grid-cols-2 md:px-6">
-    <div>
-      <p class="font-mark text-[11px] text-red">Dates that matter</p>
-      <h2 class="font-display mt-2 text-4xl">The calendar is live.</h2>
-      <ol class="mt-6 space-y-4">
+      <div class="mt-8 grid gap-4 md:grid-cols-2">
         {
-          events.map((event) => (
-            <li class="border-l-2 border-gold pl-4">
-              <p class="text-sm text-muted">
-                {formatCalendarDate(event.data.date)}
-              </p>
-              <p class="font-display text-xl">{event.data.title}</p>
-            </li>
-          ))
-        }
-      </ol>
-      <a href="/vote" class="mt-6 inline-block font-semibold text-red-deep">Full voting guide →</a>
-    </div>
-    <div>
-      <p class="font-mark text-[11px] text-red">From the campaign</p>
-      <h2 class="font-display mt-2 text-4xl">News</h2>
-      <div class="mt-6 space-y-5">
-        {
-          news.map((post) => (
-            <a href={`/news/${post.id}`} class="block rounded-sm border border-navy/10 bg-white p-5 hover:border-gold">
-              <p class="text-sm text-muted">
-                {formatCalendarDate(post.data.pubDate)}
-              </p>
-              <h3 class="font-display mt-1 text-2xl">{post.data.title}</h3>
-              <p class="mt-2 text-muted">{post.data.description}</p>
+          projects.map((project) => (
+            <a href={`/corridor#${project.id}`} class="group rounded-3xl border border-line bg-sand p-6 no-underline hover:border-copper">
+              <p class="font-mono text-[0.68rem] tracking-[0.14em] text-copper-deep uppercase">{project.status}</p>
+              <h3 class="font-display mt-2 text-3xl text-ink group-hover:text-copper-deep">{project.name}</h3>
+              <p class="mt-1 text-sm text-muted">{project.place}</p>
+              <p class="mt-4 text-sm leading-relaxed text-ink/80">{project.summary}</p>
             </a>
           ))
         }
@@ -137,19 +136,28 @@ const events = (await getCollection("events"))
     </div>
   </section>
 
-  <section class="mx-auto max-w-3xl px-4 py-8 md:px-6">
-    <p class="font-mark text-[11px] text-red">Questions</p>
-    <h2 class="font-display mt-2 mb-6 text-4xl">Straight answers</h2>
-    <FaqList client:visible items={[...faqs]} />
-  </section>
-
-  <section class="parchment mx-4 mb-20 mt-8 rounded-sm border border-gold/40 px-6 py-12 text-center md:mx-auto md:max-w-5xl">
-    <p class="font-mark text-[11px] text-red">Precinct 1 · Bastrop County</p>
-    <h2 class="font-display mt-3 text-4xl md:text-5xl">Keep an experienced judge on the people’s court.</h2>
-    <p class="mx-auto mt-4 max-w-2xl text-lg text-muted">{site.slogan}</p>
-    <div class="mt-8 flex flex-wrap justify-center gap-3">
-      <a href="/get-involved" class="rounded-sm bg-red px-5 py-3 font-semibold text-cream">Join the campaign</a>
-      <a href="/about" class="rounded-sm border border-navy/20 bg-white px-5 py-3 font-semibold">Read her record</a>
+  <section class="mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-24">
+    <div class="grid items-start gap-10 md:grid-cols-[0.9fr_1.1fr]">
+      <div>
+        <p class="kicker">Schools and the night shift</p>
+        <h2 class="font-display mt-3 text-4xl leading-tight md:text-5xl">The money stays. The demand does not.</h2>
+      </div>
+      <div class="copy space-y-4 text-lg leading-relaxed">
+        <p>
+          Building Bastrop County’s plain version of the school math: a data center puts millions into the local ISD
+          without adding a class of students. Teacher pay, buildings, and classroom technology are what that revenue
+          is for. A subdivision spends the new tax dollars on the children it brought.
+        </p>
+        <p>
+          Emergency services work the same way. The campuses fund their own security and suppression. The commercial
+          tax can buy engines and staff for Elgin, Smithville, Cedar Creek, and Bastrop, because the project is not a
+          new subdivision of medical calls.
+        </p>
+        <p>
+          <a href="/tax-base">How the abatement and the full-rate campus differ</a>
+        </p>
+      </div>
     </div>
+    <SourcesNote />
   </section>
 </Layout>

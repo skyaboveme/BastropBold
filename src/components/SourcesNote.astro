@@ -1,0 +1,21 @@
+---
+import { sources } from "../data/site";
+---
+
+<aside class="mt-16 border-t border-line pt-6">
+  <p class="font-mono text-[0.68rem] tracking-[0.16em] text-copper-deep uppercase">Where these figures come from</p>
+  <ul class="mt-3 space-y-2 text-sm text-muted">
+    {
+      sources.map((source) => (
+        <li>
+          <a class="text-ink underline underline-offset-2" href={source.href} rel="noopener noreferrer">
+            {source.name}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+  <p class="mt-3 text-sm">
+    <a class="font-medium text-ink underline underline-offset-2" href="/sources">How to read the numbers</a>
+  </p>
+</aside>

@@ -1,9 +1,9 @@
 {
-  "name": "cindy-allen-jp",
+  "name": "bastrop-bold",
   "type": "module",
   "version": "1.0.0",
   "private": true,
-  "description": "Campaign website for Judge Cindy Allen, Justice of the Peace Precinct 1, Bastrop County, Texas.",
+  "description": "Bastrop Bold — a civic brief on how data centers strengthen the tax base in Bastrop County, Texas.",
   "engines": {
     "node": ">=22.12.0"
   },

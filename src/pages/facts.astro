@@ -1,0 +1,61 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageHero from "../components/PageHero.astro";
+import SourcesNote from "../components/SourcesNote.astro";
+import { dayItems, faqs } from "../data/site";
+---
+
+<Layout
+  title="Facts"
+  description="Straight answers on water, jobs, housing, tax abatements, electric bills, and property taxes for data centers in Bastrop County."
+>
+  <PageHero
+    kicker="Straight answers"
+    title="The concerns are reasonable. The scale is the surprise."
+    lede="Water, jobs, housing, abatements, and the electric bill are the questions residents actually ask. These answers use the figures published by Building Bastrop County and Tomorrow Begins Here."
+  />
+
+  <article class="mx-auto max-w-3xl px-4 py-14 md:px-6 md:py-20">
+    <div class="space-y-3">
+      {
+        faqs.map((item) => (
+          <details class="faq group rounded-2xl border border-line bg-paper px-5 py-4">
+            <summary class="flex cursor-pointer items-start justify-between gap-4 text-lg font-medium">
+              {item.q}
+              <span class="faq-plus mt-1 inline-block text-copper transition" aria-hidden="true">
+                +
+              </span>
+            </summary>
+            <p class="mt-3 text-base leading-relaxed text-muted">{item.a}</p>
+          </details>
+        ))
+      }
+    </div>
+
+    <section class="mt-16">
+      <p class="kicker">Already in use</p>
+      <h2 class="font-display mt-3 text-4xl">The county already lives on buildings like these</h2>
+      <p class="mt-4 text-lg leading-relaxed text-muted">
+        None of it announces itself. It looks like a phone, a card, a forecast. Tomorrow Begins Here makes the local
+        point: the only question is whether Bastrop County helps build that infrastructure, or watches the tax base
+        land in some other county.
+      </p>
+      <div class="mt-6 grid gap-4">
+        {
+          dayItems.map((block) => (
+            <div class="rounded-2xl bg-sand p-5">
+              <h3 class="font-medium">{block.group}</h3>
+              <ul class="mt-3 grid gap-2 text-sm text-muted sm:grid-cols-2">
+                {block.items.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <SourcesNote />
+  </article>
+</Layout>

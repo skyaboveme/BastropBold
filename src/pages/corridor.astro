@@ -1,0 +1,89 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageHero from "../components/PageHero.astro";
+import SourcesNote from "../components/SourcesNote.astro";
+import { careers, figures, projects } from "../data/site";
+---
+
+<Layout
+  title="Corridor"
+  description="The Cedar Creek data center corridor: EdgeConneX under construction and the Pacifico and BlackChamber campus paying full property taxes."
+>
+  <PageHero
+    kicker="The corridor"
+    title="Cedar Creek is where the tax base is being built."
+    lede={`Two campuses. ${figures.combinedInvestment} in combined investment. One pays a discounted tax on the way to a full commercial value. The other withdrew its abatement and is published at a full-rate bill.`}
+  />
+
+  <article class="mx-auto max-w-6xl px-4 py-14 md:px-6 md:py-20">
+    <div class="space-y-8">
+      {
+        projects.map((project) => (
+          <section id={project.id} class="scroll-mt-24 rounded-[2rem] border border-line bg-paper p-6 md:p-10">
+            <p class="kicker">{project.place}</p>
+            <div class="mt-2 flex flex-wrap items-end justify-between gap-3">
+              <h2 class="font-display text-4xl md:text-5xl">{project.name}</h2>
+              <p class="rounded-full bg-sand px-3 py-1 text-sm font-medium">{project.status}</p>
+            </div>
+            <p class="mt-4 max-w-3xl text-lg leading-relaxed text-muted">{project.summary}</p>
+            <dl class="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">
+              {project.stats.map((stat) => (
+                <div class="border-t border-line pt-3">
+                  <dt class="text-xs tracking-wide text-muted uppercase">{stat.label}</dt>
+                  <dd class="font-mono mt-1 text-lg text-pine">{stat.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        ))
+      }
+    </div>
+
+    <section class="copy mt-12 max-w-3xl space-y-4 text-lg leading-relaxed">
+      <h2 class="font-display text-4xl text-ink">Read the two tax postures separately</h2>
+      <p>
+        EdgeConneX is under construction. Its phase-one building is the {figures.edgePhase} start of a campus planned
+        above {figures.edgeFull}. The abatement is real, and so is the published result during that abatement: more
+        than {figures.edgeAbatementPublic} to the county and Bastrop ISD, against {figures.priorAnnualTax} a year from
+        the land before. Tomorrow Begins Here’s ISD projection for the proposal is {figures.isdAnnualProjection} a
+        year.
+      </p>
+      <p>
+        Pacifico is the full-freight case. Chapter 312 and JETI requests were withdrawn. The published bill is {figures.pacificoAnnualTax} a year, described as {figures.pacificoCountyShare} of county revenue, from a {figures.pacificoInvestment} campus on {figures.pacificoAcres}. Building Bastrop County also notes reported
+        talks with Anthropic, the company behind Claude, about leasing space. Reported interest is not an announced
+        lease.
+      </p>
+      <p>
+        The power designs differ too. Pacifico’s {figures.pacificoPower} plant is on the property. EdgeConneX’s figure
+        of up to {figures.edgeCapacity} is campus capacity, not a claim that the building generates its own electricity.
+      </p>
+    </section>
+
+    <section class="mt-16">
+      <p class="kicker">Careers</p>
+      <h2 class="font-display mt-3 text-4xl">The jobs are real. They are not the main event.</h2>
+      <p class="mt-4 max-w-3xl text-lg leading-relaxed text-muted">
+        Headcount is the wrong scoreboard, and it is still a good set of jobs. Each construction phase is published
+        at {figures.constructionJobs} people. Permanent roles land in a band of {figures.payRange}, and most of the
+        technician paths do not require a four-year degree. Austin Community College and Texas State Technical College
+        are the local routes named for certificates that can be finished in under a year, alongside CompTIA and Cisco
+        networking programs.
+      </p>
+      <ul class="mt-8 grid gap-3 md:grid-cols-2">
+        {
+          careers.map((job) => (
+            <li class="rounded-2xl border border-line bg-paper p-5">
+              <div class="flex items-baseline justify-between gap-3">
+                <h3 class="font-medium">{job.role}</h3>
+                <p class="font-mono text-xs text-copper-deep">{job.pay}</p>
+              </div>
+              <p class="mt-2 text-sm leading-relaxed text-muted">{job.note}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <SourcesNote />
+  </article>
+</Layout>
