@@ -10,6 +10,7 @@ export const nav = [
   { href: "/tax-base", label: "Tax base" },
   { href: "/footprint", label: "Footprint" },
   { href: "/corridor", label: "Corridor" },
+  { href: "/myths", label: "Myths" },
   { href: "/facts", label: "Facts" },
 ];
 

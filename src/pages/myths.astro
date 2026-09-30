@@ -1,0 +1,253 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageHero from "../components/PageHero.astro";
+import SourcesNote from "../components/SourcesNote.astro";
+import { figures } from "../data/site";
+
+const jumps = [
+  { href: "#water", label: "Water" },
+  { href: "#noise", label: "Noise" },
+  { href: "#heat", label: "Heat" },
+  { href: "#power", label: "Power" },
+  { href: "#traffic", label: "Traffic" },
+  { href: "#taxes", label: "Taxes" },
+];
+
+/** Annualized from published daily or yearly figures. Widths share one scale. */
+const waterBars = [
+  {
+    label: "1,000 homes, high end",
+    detail: "400,000 gallons a day, times 365",
+    amount: "146 million gal/year",
+    width: "100%",
+  },
+  {
+    label: "18-hole golf course",
+    detail: "Tomorrow Begins Here",
+    amount: "114 million gal/year",
+    width: "78%",
+  },
+  {
+    label: "Closed-loop campus",
+    detail: "Tomorrow Begins Here",
+    amount: "5 million gal/year",
+    width: "3.4%",
+  },
+  {
+    label: "Pacifico, potable only",
+    detail: "2,000 gallons a day, times 365",
+    amount: "About 730,000 gal/year",
+    width: "0.5%",
+  },
+];
+
+const loop = [
+  { step: "01", title: "The chips get hot", text: "Servers and GPUs make heat. That is the work, not a leak." },
+  { step: "02", title: "Coolant takes it", text: "Liquid runs through the hardware and picks the heat up at the source." },
+  { step: "03", title: "A heat exchanger moves it", text: "The heat leaves the loop. The fluids do not mix." },
+  { step: "04", title: "The same water returns", text: "Sealed loop. No evaporation. No daily refill from the aquifer." },
+];
+---
+
+<Layout
+  title="Myth busters"
+  description="Myth busters for data centers in Bastrop County: closed-loop water, noise, heat, grid draw, traffic, and taxes, using figures from Building Bastrop County and Tomorrow Begins Here."
+>
+  <PageHero
+    kicker="Myth busters"
+    title="The loud version is a different machine than the one being built."
+    lede="Water, noise, and heat get described as if Cedar Creek were a field of old cooling towers. The campuses published for Bastrop County are closed-loop buildings. Here is the claim, then the record."
+  />
+
+  <article class="mx-auto max-w-6xl px-4 py-14 md:px-6 md:py-20">
+    <nav class="flex flex-wrap gap-2" aria-label="Myths on this page">
+      {
+        jumps.map((item) => (
+          <a
+            href={item.href}
+            class="rounded-full border border-line bg-paper px-3 py-1.5 text-sm font-medium no-underline hover:border-copper"
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <section id="water" class="scroll-mt-28 mt-14 border-t border-line pt-10">
+      <p class="font-mono text-xs tracking-[0.16em] text-copper-deep uppercase">Myth 01 · Water</p>
+      <h2 class="font-display mt-3 max-w-3xl text-4xl leading-tight md:text-5xl">They will drain the county dry.</h2>
+      <p class="mt-4 max-w-3xl text-lg leading-relaxed text-muted">
+        The claim treats every data center like a legacy evaporative tower that boils fresh water all day, and then
+        mixes that picture with the water used upstream to make electricity.
+      </p>
+
+      <div class="mt-8 rounded-3xl border border-line bg-paper p-6 md:p-8">
+        <p class="font-mono text-[0.68rem] tracking-[0.16em] text-muted uppercase">Same scale, gallons a year</p>
+        <ul class="mt-6 space-y-5">
+          {
+            waterBars.map((bar) => (
+              <li>
+                <div class="flex flex-wrap items-baseline justify-between gap-2">
+                  <p class="font-medium">{bar.label}</p>
+                  <p class="font-mono text-sm text-pine">{bar.amount}</p>
+                </div>
+                <div class="mt-2 h-2.5 overflow-hidden rounded-full bg-sand" aria-hidden="true">
+                  <div class="h-full rounded-full bg-copper" style={`width: ${bar.width}; min-width: 0.4rem`} />
+                </div>
+                <p class="mt-1 text-xs text-muted">{bar.detail}</p>
+              </li>
+            ))
+          }
+        </ul>
+        <p class="mt-6 max-w-3xl text-sm leading-relaxed text-muted">
+          The home and Pacifico yearly totals are the published daily figures times 365. They are shown so the scale
+          is comparable. They are not a second set of official annual bills.
+        </p>
+      </div>
+
+      <div class="copy mt-8 max-w-3xl space-y-4 text-lg leading-relaxed">
+        <p>
+          Building Bastrop County puts Pacifico’s potable use at about {figures.pacificoDailyWater} a day, counted as {figures.pacificoLues} living-unit equivalents. A residential use of that scale is put at {figures.residentialLues} LUEs. The same source says a 96-megawatt closed-loop building, the size of EdgeConneX’s published capacity, sits in roughly the same daily water range as a flagship Buc-ee’s.
+        </p>
+        <p>
+          Tomorrow Begins Here puts a modern closed-loop campus near {figures.campusWater}. An 18-hole golf course is about {figures.golfWater}. A 1,000-home subdivision is {figures.subdivisionDailyWater}. All U.S. data centers together used {figures.usFreshwater} of national freshwater in 2023, about 15 times less than what leaks from municipal pipes, and irrigation uses on the order of 100 times more.
+        </p>
+        <p>
+          The loop is the whole argument. Water stays in the pipe. It is not the cooling method that made the old reputation.
+        </p>
+      </div>
+    </section>
+
+    <section id="noise" class="scroll-mt-28 mt-16 border-t border-line pt-10">
+      <p class="font-mono text-xs tracking-[0.16em] text-copper-deep uppercase">Myth 02 · Noise</p>
+      <h2 class="font-display mt-3 max-w-3xl text-4xl leading-tight md:text-5xl">It will roar like a highway at the fence.</h2>
+      <div class="mt-8 grid gap-4 md:grid-cols-2">
+        <div class="rounded-3xl bg-sand p-6">
+          <p class="font-mono text-[0.68rem] tracking-[0.16em] text-copper-deep uppercase">The claim</p>
+          <p class="mt-3 text-lg leading-relaxed">
+            Cooling fans run in the open, day and night, and the sound carries the way a factory or a crypto mine does.
+          </p>
+        </div>
+        <div class="rounded-3xl bg-pine p-6 text-paper">
+          <p class="font-mono text-[0.68rem] tracking-[0.16em] text-[#e7c2a4] uppercase">The record</p>
+          <p class="mt-3 text-lg leading-relaxed text-paper/85">
+            That sound belongs to open cooling towers and outdoor equipment yards. The design published for these
+            campuses is closed-loop cooling inside the hall.
+          </p>
+        </div>
+      </div>
+      <div class="copy mt-8 max-w-3xl space-y-4 text-lg leading-relaxed">
+        <p>
+          Pumps and fans exist. A data center is not a library. The myth skips the enclosure and the distance. Servers, coolant, and the heat exchanger sit in the building. EdgeConneX’s published Cedar Creek design is closed-loop chilled water with thermal storage, not a row of evaporative towers. Pacifico’s tract is {figures.pacificoAcres}, so the equipment is inside a large site rather than on a residential lot line.
+        </p>
+        <p>
+          Construction is the loud chapter. Truck traffic and site work do not sound like the finished building. Once the hall is operating, the county is not living next to a subdivision of commuters either. Daily traffic is one of the things this land use is built to avoid.
+        </p>
+        <p>
+          The two source sites do not publish a decibel study for these campuses. This page will not invent one. What they do publish is the machine: a sealed cooling loop in a building, not an open tower farm at the fence.
+        </p>
+      </div>
+    </section>
+
+    <section id="heat" class="scroll-mt-28 mt-16 border-t border-line pt-10">
+      <p class="font-mono text-xs tracking-[0.16em] text-copper-deep uppercase">Myth 03 · Heat</p>
+      <h2 class="font-display mt-3 max-w-3xl text-4xl leading-tight md:text-5xl">The waste heat will cook the next road over.</h2>
+      <p class="mt-4 max-w-3xl text-lg leading-relaxed text-muted">
+        Chips do get hot. That heat is the reason the cooling system exists. It is not a plume dumped on the neighborhood, and it is not boiled off as lost water.
+      </p>
+      <ol class="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          loop.map((item) => (
+            <li class="rounded-3xl border border-line bg-paper p-5">
+              <p class="font-mono text-xs text-copper-deep">{item.step}</p>
+              <h3 class="mt-2 font-medium">{item.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-muted">{item.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+      <p class="copy mt-8 max-w-3xl text-lg leading-relaxed">
+        Building Bastrop County’s account of the exchanger is specific: heat moves, the fluids do not mix, and the same water recirculates. The outdoor equipment rejects that heat on the campus. It does not evaporate a river to do it. The water myth and the heat myth are one picture of a 1990s tower. Cedar Creek’s published design is the other machine.
+      </p>
+    </section>
+
+    <section id="power" class="scroll-mt-28 mt-16 border-t border-line pt-10">
+      <p class="font-mono text-xs tracking-[0.16em] text-copper-deep uppercase">Myth 04 · Power</p>
+      <h2 class="font-display mt-3 max-w-3xl text-4xl leading-tight md:text-5xl">They will take the grid and hand you the bill.</h2>
+      <div class="copy mt-6 max-w-3xl space-y-4 text-lg leading-relaxed">
+        <p>
+          Pacifico is the direct answer. The campus includes {figures.pacificoPower} of natural gas generation on the property. Building Bastrop County describes that as no draw on the ERCOT grid and no rate impact from that design. Neighbors are not the power plant for that site.
+        </p>
+        <p>
+          EdgeConneX is a different project: a hyperscale campus of up to {figures.edgeCapacity}, under construction, not described as an off-grid plant. For grid-connected industry, Tomorrow Begins Here points to Texas SB 6. Large loads, 75 megawatts and up at one site, can be ordered to curtail, switch to backup, or be cut when the grid is under stress. The published example of that flexibility is a drop from 100 megawatts to 5, so houses and hospitals stay served. The same account says those customers pay for the substations and lines their load requires.
+        </p>
+      </div>
+    </section>
+
+    <section id="traffic" class="scroll-mt-28 mt-16 border-t border-line pt-10">
+      <p class="font-mono text-xs tracking-[0.16em] text-copper-deep uppercase">Myth 05 · Traffic and schools</p>
+      <h2 class="font-display mt-3 max-w-3xl text-4xl leading-tight md:text-5xl">It will feel like a new town showed up.</h2>
+      <div class="mt-8 overflow-x-auto rounded-3xl border border-line bg-paper">
+        <table class="w-full min-w-[36rem] text-left text-sm">
+          <caption class="sr-only">A 1,000-home subdivision compared with a data center</caption>
+          <thead class="bg-pine text-paper">
+            <tr>
+              <th class="px-4 py-3 font-medium" scope="col">Demand</th>
+              <th class="px-4 py-3 font-medium" scope="col">1,000 homes</th>
+              <th class="px-4 py-3 font-medium" scope="col">Data center</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-t border-line">
+              <th class="px-4 py-3 font-medium" scope="row">Students</th>
+              <td class="px-4 py-3 text-muted">{figures.subdivisionStudents}</td>
+              <td class="px-4 py-3">Minimal new enrollment</td>
+            </tr>
+            <tr class="border-t border-line">
+              <th class="px-4 py-3 font-medium" scope="row">Morning roads</th>
+              <td class="px-4 py-3 text-muted">A subdivision rush</td>
+              <td class="px-4 py-3">Minimal once construction ends</td>
+            </tr>
+            <tr class="border-t border-line">
+              <th class="px-4 py-3 font-medium" scope="row">Emergency calls</th>
+              <td class="px-4 py-3 text-muted">A new neighborhood</td>
+              <td class="px-4 py-3">On-site security and fire suppression</td>
+            </tr>
+            <tr class="border-t border-line">
+              <th class="px-4 py-3 font-medium" scope="row">Housing market</th>
+              <td class="px-4 py-3 text-muted">A thousand new households</td>
+              <td class="px-4 py-3">A specialized crew, not a new city</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="copy mt-6 max-w-3xl text-lg leading-relaxed">
+        Building Bastrop County’s housing point is the headcount. A permanent staff measured in dozens does not reproduce Austin’s boom. Each construction phase is published at {figures.constructionJobs} jobs, and the lasting technical pay runs {figures.payRange}. The value of the building is still the tax roll, not a crowd.
+      </p>
+    </section>
+
+    <section id="taxes" class="scroll-mt-28 mt-16 border-t border-line pt-10">
+      <p class="font-mono text-xs tracking-[0.16em] text-copper-deep uppercase">Myth 06 · Taxes</p>
+      <h2 class="font-display mt-3 max-w-3xl text-4xl leading-tight md:text-5xl">An abatement means they pay nothing.</h2>
+      <div class="copy mt-6 max-w-3xl space-y-4 text-lg leading-relaxed">
+        <p>
+          The land started at about {figures.priorAnnualTax} a year. That is the number an abatement has to beat, and it is not a close call.
+        </p>
+        <p>
+          EdgeConneX won its site over {figures.competingSites} others. A ten-year discount was part of landing it. Building Bastrop County reports that during the abatement the county and Bastrop ISD still receive more than {figures.edgeAbatementPublic}. Tomorrow Begins Here publishes a separate ISD figure for that proposal: {figures.isdAnnualProjection} a year, {figures.isdDecadeProjection} over ten years. Those lines are not added together. When the discount ends, the full commercial value is what the roll taxes.
+        </p>
+        <p>
+          Pacifico withdrew its Chapter 312 and JETI applications. It is published at the full rate: {figures.pacificoAnnualTax} a year, described as {figures.pacificoCountyShare} of county revenue, from a {figures.pacificoInvestment} campus. No discount. A commercial bill, and still almost no students.
+        </p>
+      </div>
+    </section>
+
+    <SourcesNote />
+    <p class="mt-4 text-sm text-muted">
+      The Buc-ee’s comparison is from
+      <a class="text-ink underline underline-offset-2" href="https://buildingbastropcounty.com/news/bastrop-county-site-selection-scorecard/" rel="noopener noreferrer">Building Bastrop County’s site scorecard</a>.
+      The closed-loop water table and the warning against mixing old cooling towers with new halls are from
+      <a class="text-ink underline underline-offset-2" href="https://tomorrowbeginshere.com/data-center-backlash/" rel="noopener noreferrer">Tomorrow Begins Here</a>.
+    </p>
+  </article>
+</Layout>

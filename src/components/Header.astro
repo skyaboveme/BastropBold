@@ -11,7 +11,7 @@ const path = Astro.url.pathname.replace(/\/$/, "") || "/";
       <Mark />
     </a>
 
-    <nav class="hidden items-center gap-1 md:flex" aria-label="Primary">
+    <nav class="hidden items-center gap-1 lg:flex" aria-label="Primary">
       {
         nav.map((item) => {
           const active = path === item.href;
@@ -31,7 +31,7 @@ const path = Astro.url.pathname.replace(/\/$/, "") || "/";
       }
     </nav>
 
-    <details class="relative md:hidden">
+    <details class="relative lg:hidden">
       <summary
         class="cursor-pointer list-none rounded-full border border-line bg-paper px-3 py-1.5 text-sm font-medium"
       >
